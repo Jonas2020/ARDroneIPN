@@ -1,2 +1,174 @@
-Software to the AR Drone 2.0
-Donde se le implemento Vision Artificial para recorridos en pasillo.
+ARDRONE_TEST
+
+Instalación
+
+$ roscd
+$ pwd
+~/ros_workspace
+$ git clone https://github.com/Jonas2020/ARDroneIPN.git
+$ rospack profile
+$ roscd ARDroneIPN
+$ rosmake -a
+
+*Consideraciones
+
+Para poder hacer uso del paquete ardrone-test se debe de estar consciente que el algoritmo tiene algunas restric-
+ciones para llevar a cabo su funcionamiento de una manera eficiente, a continuación se enuncian las consideraciones
+más importantes antes de hacer uso del paquete.Una de estas consideraciones es la de instalar el paquete ”ardrone-autonomy” el cual sirve como manejador
+para el hardware que incluye el cuadrirrotor, es posible accesar a los recursos como la cámara, los motores, los
+sensores a bordo y también a través de él podemos enviar las instrucciones básicas de manejo.
+
+El cuadrirrotor se deberá colocar en el centro del pasillo con una rotación en su cuerpo no mayor a 30 grados
+en sentido horario o anti horario.Para la medición del ángulo anteriormente descrito se puede escribir la siguiente linea en una terminal una
+vez que se haya ejecutado la aplicación y verificando el parámetro ”rotZ”
+
+>> r o s t o p i c e c h o / a r d r o n e / n a v d a t a
+
+Al iniciar la aplicación existe un tiempo de espera de espera de 10 segundos, los cuales sirven para poder
+checar algún tipo de fallo y poder despegar el cuadrirrotor.
+
+Existe un control manual integrado en el teclado de la computadora el cual puede ser usado para algún tipo de
+emergencia y contiene todas las operaciones básicas del cuadrirrotor, tales como despegar o aterrizar, pasar
+a un modo de emergencia, desplazarse y rotar e incluso subir o bajar la altitud del mismo.
+
+El despegue del cuadrirrotor siempre será en su fase inicial a la altura de un metro, en caso de que se requiera
+volar a una altura diferente será necesario utilizar el control manual.
+Durante el despegue el cuadrirrotor puede llegar a desplazarse hasta en un radio de 2 metros.
+Con este paquete no se asegura que todos los casos sea realizado un recorrido exitoso.
+Operación
+
+A continuación se describe cual es la manera más sencilla de utilizar la aplicación para recorrer los pasillos de
+manera autónoma del paquete ardrone-test se describe paso a paso cada una de sus funcionalidades.
+Paso 1. Conexión al Cuadrirrotor
+
+lo primero que se debe de hacer en todos los casos es crear la conexión WiFi, en este caso es similar al hacerlo
+a una conexión de Internet, solamente se habilita la tarjeta inalámbrica de nuestra computadora y se elige la red
+”ardroneXXXXXX” la cual no es restringida y se espera en la computadora hasta que se mencione que la conexión
+se ha establecido.
+
+Paso 2. Configuración archivo de lanzamiento
+
+El archivo launch o archivo de lanzamiento sirve para configurar los parámetros iniciales por los cuales se
+regirá el cuadrirrotor, estos para son: altura inicial, altura mínima, configuración para exteriores entro otros. A
+continuación se describen estos parámetros encontrados en el archivo de lanzamiento.
+Control de entorno outdoor: Con este parámetro es posible indicar cual es el entrono en el cual estará ope-
+rando el cuadrirrotor, usando un 0 se configura para interiores y 1 para exteriores
+
+<param name="outdoor" v a l u e ="1" / >
+
+Carcasa protectora flight-without-shell: Este para sirve para indicar si se esta usando la carcasa protectora, un
+valor de 0 indica que se esta usando y un valor de 1 que no se esta usando.
+
+<param name="flight_without_shell" v a l u e ="0" / >
+
+Altitud máxima altitude-max: Este parámetro sirve para indicar la altura máxima que puede alcanzar el
+cuadrirrotor y viene dado en milímetros.
+
+<param name="altitude_max" v a l u e ="3000" / >
+
+Altitud mínima altitude-min: Este parámetro sirve para indicar la altura mínima que puede alcanzar el cua-
+drirrotor y viene dado en milímetros.
+
+<param name="altitude_min" v a l u e ="50" / >
+
+Ángulos de desplazamiento euler-angle-max: Estye parámetro indica cual será el ángulo maximo en que
+se podrá rotar el cuadrirrotor para generar desplazamientos tanto en direcciones Adelante-Atrás como en
+Izquierda-Derecha, el valor esta en radianes.
+
+<param name="euler_angle_max" v a l u e ="0.05" / >
+Control de la velocidad de ascenso y descenso control-vz-max: Este parametro indica cual sera la velocidad
+con la que se podrá aumentar o disminuir la altura del cuadrirrotor, este valor esta dado en milímetros por
+segundo.
+
+<param name="control_vz_max" v a l u e ="700" / >
+
+Control de la velocidad de rotación control-yaw: este parámetro indica cual serpa la velocidad con la que
+realizará los giros el cuadrirrotor, este parámetro viene dado en radianes por segundo.
+
+<param name="control_yaw" v a l u e ="0.30" / >
+
+Por ultimo, una vez configurados estos parámetros es necesario utilizar un comando en la terminal para guardar
+estos cambios en el paquete, lo que se tiene que hacer es abrir una nueva terminal y colocar la siguiente linea.
+
+>> r o s m a k e a r d r o n e _ t e s t
+
+Paso 3. Ejecutando la aplicación
+Aquí se explica como utilizar la aplicación. Lo primero que se deberá de hacer es abrir una nueva terminal,
+en la cual se deberá correr el archivo ”IPNvideo-test.launch” ya que previamente se configuraron los parámetros
+deseados, para esto escriba la siguiente linea en una terminal.
+
+>> r o s l a u n c h a r d r o n e _ t e s t I P N v i d e o _ t e s t . l a u n c h
+
+Después de haber ejecutado este comando en la pantalla empezarán a desplegarse los procesos que se están
+ejecutando para que pueda funcionar la aplicación.Inmediatamente después de es en la pantalla de deberán de des-
+plegar dos ventanas nuevas, las cuales mostrarán la imagen recibida desde la cámara, con la diferencia de que una
+de ellas mostrara la imagen sin ningún procesamiento, mientras que la otra estará mostrando el procesamiento de
+la visión artificial.
+
+Paso 4. Enviando comandos al cuadrirrotor
+El cuadrirrotor como ya se explico en la parte de las consideraciones posee un control manual en el teclado,
+este sirve para realizar muchas de las operaciones básicas y algo muy importante para el algoritmo, es que nos
+permite despegar, siendo esta una de las cosas que tiene que hacer el usuario antes de que el algoritmo comience a
+funcionar. A continuación se describe como esta distribuido este control manual y cuales son sus funcionalidades.
+E – Desplazamiento hacia adelante
+D – Desplazamiento hacia atrás
+S – Desplazamiento hacia la izquierda
+F – Desplazamiento hacia la derecha
+Q - Aumenta la altitud
+A – Reduce la altitud
+Y – Despega
+H – Aterriza
+BARRA ESPACIADORA – Paro de emergencia
+
+Teniendo el conocimiento de esto, después de la ejecución del archivo de lanzamiento, recordemos que se da
+una pausa de 10 segundos al usuario para checar que todo este en correcto funcionamiento y también dentro de
+estos 10 segundos es necesario que se despeque el cuadrirrotor, usando el control manual y presionando la tecla
+”Y”.
+
+Paso 5. Seguimiento de la aplicación
+
+Una vez que se han realizado los pasos anteriores, se puede únicamente observar cuales son las decisiones que
+va tomando el cuadrirrotor y como esta ejecutando su rutina de vuelo. Para esto, en la terminal donde ejecutamos el
+archivo de lanzamiento comenzará a salir una impresión la cual indica cual es el valor de control que esta enviando
+el algoritmo de visión artificial. Este valor a su vez es enviado al nodo de control de vuelo (routine-controller.py) y
+aquí se manda una señal de vuelo como se explico en apéndices anteriores.
+Lo dicho anteriormente puede ser suficiente para alguien que este familiarizado con todos los códigos del
+paquete, pero para alguien que va iniciando es mejor conocer que acción esta tomando en base a la señal de control
+antes mencionada, para esto se puede abrir una terminal nueva y ejecutar este comando.
+
+>> r o s t o p i c e c h o / a r d r o n e / c t r l _ i n t e r n o
+
+Lo que el comando anterior realiza es una muestra en pantalla de un canal auxiliar que se creo para poder
+mostrar al usuario cual es la señal de control que se esta tomando estas señales de control pueden ser las siguientes.
+Frente - Indica que el cuadrirrotor avanzará hacia adelante
+Giro izquierda - Indica que el cuadrirrotor girará a la izquierda
+Giro derecha - Indica que el cuadrirrotor girará a la derecha
+Hoover - Indica que el cuadrirrotor entrará a un modo de estabilización
+Pared derecha - Indica que el cuadrirrotor encontró una pared del lado derecho.
+Pared izquierda - Indica que el cuadrirrotor encontró una pared del lado izquierdo
+Aterriza - Indica cuando el cuadrirrotor aterrizará
+Las primeras tres señales son bastante claras e indican el movimiento que realizará el cuadrirrotor en base al
+algoritmo de visión artificial. El modo Hoover ocurre en dos distintas maneras, la primera es cuando una señal se
+ha repetido un número de veces definido por el usuario en el código (routine-controller.py) y es necesario romper
+la inercia de ese movimiento; La otra forma en que este se activa es cuando se esta por llegar al final del pasillo y
+se pierde el punto de fuga, en este caso al haber perdido el punto de fuga un más de 10 ocasiones consecutivas el
+cuadrirrotor activara la señal ”Aterriza” la cual como su nombre lo incida mandará a aterrizar el cuadrirrotor.
+Por último tenemos las rutinas que encuentran paredes, estas rutinas son un poco más complejas de explicar
+pero lo que indican es que cuando existe algún similitud entre en el sitio en que se encuentra el punto de fuga y la
+rotación que existe en el cuadrirrotor, existe la posibilidad de que se este junto a algún muro y en caso de ejecutar la
+señal natural de giro hacia el punto de fuga, se hace también de panera paralela un desplazamiento al lado contrario
+al que nos indica la leyenda de la pared, la rotación del cuadrirrotor para entrar a alguna de estas funciones se puede
+variar por el usuario en el código (routine-controller.py). A continuación se muestra que linea se deberá modificar.
+
+a n g p a r e d = 30
+# a n g u l o en g r a d o s
+
+Paso 6. Finalización de la aplicación
+
+Existen una manera en las cuales puede acabar la rutina de vuelo. esta es que haya recorrido el pasillo por
+completo y haya entrado a la rutina de aterrizaje. En caso de que se quede en modo Hoover o comience a rotar
+sobre sí mismo, será necesario terminar con su vuelo de manera manual utilizando el control manual y la tecla de
+aterrizaje ”H”. Alguno de estos dos hará que se termine con la tarea del vuelo, pero ninguna de las dos termina
+con la aplicación en sí, para poder culminar la aplicación es necesario regresar a la terminal en la que se ejecuto
+el archivo de lanzamiento y desde aquí ejecutar la siguiente secuencia de teclas ” Teclas Ctrl + C ”, con esto la
+aplicación comenzara a cerrarse y se perderá la conexión con el cuadrirrotor.
