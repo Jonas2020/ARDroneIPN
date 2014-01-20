@@ -1,14 +1,14 @@
-*******************************************************************************************
-**********          INTRODUCCION          **********
-*******************************************************************************************
+***********************************************************************************
+***********                         INTRODUCCION                         **********
+***********************************************************************************
 
 Este trabajo o codigo realizado fue llevado a cabo por tres estudiantes de Ingenieria Mecatrónica de la 
 Unidad Profesional Interdisciplinaria en Ingeniería y Tecnologías Avanzadas del Instituto Politécnico Nacional 
 UPIITA-IPN.
 
-****************************************************
-**********             AUTORES            **********
-****************************************************
+***********************************************************************************
+***********                            AUTORES                           **********
+***********************************************************************************
 
 Ing. Anguiano Torres Iván Adrián
 Ing. Garrido Reyes Miguel Daniel
@@ -16,9 +16,9 @@ Ing. Martínez Loredo Jonathan Emmanuelle
 
 ARDRONE_TEST
 
-****************************************************
-**********          INSTALACIÓN           **********
-****************************************************
+***********************************************************************************
+***********                          INSTALACIÓN                         **********
+***********************************************************************************
 
 $ roscd
 $ pwd
@@ -31,9 +31,9 @@ $ rosmake -a
 En caso de presentarse algun error durante la ejecucion del rosmake, esto se debera principalmente
 a que el paque está direccionado a otro nombre, solo modifique de manera manual a la ruta de su equipo.
 
-****************************************************
-**********        CONSIDERACIONES         **********
-****************************************************
+***********************************************************************************
+***********                         CONSIDERACIONES                      **********
+***********************************************************************************
 
 Para poder hacer uso del paquete ardrone-test se debe de estar consciente que el algoritmo tiene algunas restric-
 ciones para llevar a cabo su funcionamiento de una manera eficiente, a continuación se enuncian las consideraciones
