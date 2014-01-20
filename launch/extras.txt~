@@ -1,0 +1,5 @@
+	<!-- Launches the IPNdrone_navdata_show -->
+	<node name="IPNdrone_navdata_show" pkg="ardrone_test" type="IPNdrone_navdata_show.py" required="true"/>
+	
+	<!-- Launches the routine_controller -->
+	<node name="routine_controller" pkg="ardrone_test" type="routine_controller.py" required="true"/>

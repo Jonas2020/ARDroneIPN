@@ -1,0 +1,9 @@
+	<!-- Launches the IPNvideo_norm_disp -->
+	<node name="IPNvideo_norm_disp" pkg="ardrone_test" type="IPNvideo_norm_disp.py" output="screen" required="true">
+	</node>	
+
+	<!-- Launches the IPNdrone_navdata_show -->
+	<node name="IPNdrone_navdata_show" pkg="ardrone_test" type="IPNdrone_navdata_show.py" required="true"/>
+	
+	<!-- Launches the routine_controller -->
+	<node name="routine_controller" pkg="ardrone_test" type="routine_controller.py" required="true"/>

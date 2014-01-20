@@ -1,0 +1,38 @@
+<launch>
+	<!-- Launches the AR.Drone driver -->
+	<node name="ardrone_driver" pkg="ardrone_autonomy" type="ardrone_driver" output="screen" clear_params="true">
+	    
+	    <param name="outdoor" value="1" />				<!-- If flying outdoors, aggressive settings -->
+														<!-- 0 indoors y 1 outdoor -->	    
+	    <param name="flight_without_shell" value="0" /> <!-- Changes internal controller gains if we are flying without the propeller guard -->
+														<!-- 0 con carcasa y 1 sin carcasa -->
+														
+	    <param name="altitude_max" value="3000" />		<!-- in millimeters = 3 meters = 9' -->
+        <param name="altitude_min" value="50" />		<!-- in millimeters = 5cm = 2" -->
+
+        <param name="euler_angle_max" value="0.04" />	<!-- 0.21 maximum allowable body angle in radians -->
+        <param name="control_vz_max" value="700" />		<!-- maximum z velocity in mm/sec = 0.7 m/sec -->
+	    <param name="control_yaw" value="0.30" />		<!-- 0.30 maximum rotation rate in radians/sec -->
+
+	    <param name="detect_type" value="10" />
+	    <param name="detections_select_h" value="128" />	<!-- In the horizontal camera, look for the orange-blue-orange markers -->
+	    <param name="detections_select_v_hsync" value="32" />  <!-- In the vertical camera, detect the A4 marker -->
+	    <param name="enemy_colors" value="1" />			<!-- Orange-Green-Orange = 1, Orange-Blue-Orange = 3 -->
+	    <param name="enemy_without_shell" value="0" />	<!-- Detect the indoor stickers, rather than the outdoor hull -->
+	</node>	
+
+	<!-- Launches the openCV -->
+	<node name="openCV" pkg="ardrone_test" type="openCV.py" output="screen" required="true">
+	</node>
+	
+	<!-- Launches the IPNdrone_navdata_send -->
+	<node name="IPNdrone_navdata_send" pkg="ardrone_test" type="IPNdrone_navdata_send.py" output="screen" required="true">
+	</node>
+
+	<!-- Launches the routine_controller -->
+	<node name="routine_controller" pkg="ardrone_test" type="routine_controller.py" required="true"/>
+	
+	<!-- Launches the inter -->
+	<node name="inter" pkg="ardrone_test" type="inter.py" required="true"/>
+
+</launch>

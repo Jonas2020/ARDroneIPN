@@ -1,0 +1,4 @@
+<launch>
+	<!-- Launches the IPNdrone_navdata_show -->
+	<node name="IPNdrone_navdata_show" pkg="ardrone_test" type="IPNdrone_navdata_show.py" required="true"/>
+</launch>
